@@ -1,0 +1,529 @@
+/****************************************************************************
+ * dictionary.c
+ *
+ * Computer Science 50
+ * Problem Set 6
+ *
+ * Implements a dictionary's functionality.
+ ***************************************************************************/
+
+#include <stdbool.h>
+#include <cs50.h>
+#include "dictionary.h"
+
+typedef struct letter
+{
+    bool EOW;
+    struct letter *a;
+    struct letter *b;
+    struct letter *c;
+    struct letter *d;
+    struct letter *e;
+    struct letter *f;
+    struct letter *g;
+    struct letter *h;
+    struct letter *i;
+    struct letter *j;
+    struct letter *k;
+    struct letter *l;
+    struct letter *m;
+    struct letter *n;
+    struct letter *o;
+    struct letter *p;
+    struct letter *q;
+    struct letter *r;
+    struct letter *s;
+    struct letter *t;
+    struct letter *u;
+    struct letter *v;
+    struct letter *w;
+    struct letter *x;
+    struct letter *y;
+    struct letter *z;
+    struct letter *AA;
+} 
+letter;
+
+letter *root;
+
+void insert_letter(letter *curr, letter *next, char di);
+
+/**
+ * Returns true if word is in dictionary else false.
+ */
+bool check(const char* word)
+{
+    // TODO
+    return false;
+}
+
+/**
+ * Loads dictionary into memory.  Returns true if successful else false. Uses char checking process from speller.c in CS50.
+ */
+bool load(const char* dictionary)
+{    
+    if (dictionary == NULL)
+    {
+        return false;   
+    };
+        
+    letter *curr;
+    letter *next;
+    curr = root;
+          
+    int i = -1;
+    
+    // move through entire dictionary char by char
+    do
+    {       
+        i++;                        
+        //move through each word char by char
+        do
+        {
+            curr->EOW = false;
+            next = malloc(sizeof(letter)); 
+            insert_letter(curr, next, dictionary[i]);   
+            i++;
+        } while (dictionary[i] != '\n' && dictionary[i] != '\0');
+        
+        curr->EOW = true;
+        curr = root;                   
+        free(next);
+    }
+    while (dictionary[i] != '\0');
+    
+
+    
+    return true;
+}
+
+/**
+ * Returns number of words in dictionary if loaded else 0 if not yet loaded.
+ */
+unsigned int size(void)
+{
+    // TODO
+    return 0;
+}
+
+/**
+ * Unloads dictionary from memory.  Returns true if successful else false.
+ */
+bool unload(void)
+{
+    // TODO
+    return false;
+}
+
+/**
+ * Inserts new letter into dictionary trie. The if-statements are an attempt to shorten the amount of time to figure out which
+ * letter the program is dealing with. Once it hits the end of an if-statement tree, it has three options for letters. Due to
+ * integer values associated with characters (via ASCII), this tree should look somewhat alphabetical. 
+ *
+ * It's worth noting that the final combination of if-statements (if, else if, else) are in order of letter frequency. For example, 
+ * the group of if-statements for the letters x, y, and z are in the order of y, x, z because y is far more common in language 
+ * usage than x, which is twice as common as z. Implimenting this across the tree would have been beneficial, but overwriting 
+ * ASCII values would likely have taken too much of the program's time.
+ 
+ * Once it finds the letter in question, it checks to see if that node is NULL. If it is NULL, it takes the memory previously allocated
+ * for next and points the letter in question to that memory. If it is not NULL, it frees the memory previously allocated for next and
+ * frees it.
+ */
+
+void insert_letter(letter *curr, letter *next, char di)
+{
+    // Numerical values are based off ASCII conversions. 
+    if (di > 109)
+    {
+        if (di > 116)
+        {
+            if (di > 119)
+            { 
+                if (di == 121)
+                {
+                    if (curr->y == NULL)
+                    {
+                        curr->y = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->y;                        
+                    };
+                }
+                else if (di == 120)
+                {
+                    if (curr->x == NULL)
+                    {
+                        curr->x = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->x;                        
+                    };
+                }
+                else // 122
+                {
+                    if (curr->z == NULL)
+                    {
+                        curr->z = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->z;                        
+                    };
+                };            
+            }
+            else if (di < 119)
+            {
+                if (di == 116)
+                {
+                    if (curr->t == NULL)
+                    {
+                        curr->t = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->t;                        
+                    };
+                }
+                else if (di == 117)
+                {
+                    if (curr->u == NULL)
+                    {
+                        curr->u = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->u;                        
+                    };
+                }
+                else // 118
+                {
+                    if (curr->v == NULL)
+                    {
+                        curr->v = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->v;                        
+                    };        
+                }
+            }       
+            else // 119
+            {
+                    if (curr->w == NULL)
+                    {
+                        curr->w = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->w;                        
+                    };            
+            };     
+        }
+        else 
+        {
+            if (di > 112)
+            {
+                if (di == 115)
+                {
+                    if (curr->s == NULL)
+                    {
+                        curr->s = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->s;                        
+                    };
+                }
+                else if (di == 114)
+                {
+                    if (curr->r == NULL)
+                    {
+                        curr->r = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->r;                        
+                    };
+                }
+                else // 113
+                {
+                    if (curr->q == NULL)
+                    {
+                        curr->q = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->q;                        
+                    };
+                };
+            }
+            else
+            {            
+                if (di == 111)
+                {
+                    if (curr->o == NULL)
+                    {
+                        curr->o = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->o;                        
+                    };
+                }
+                else if (di == 110)
+                {
+                    if (curr->n == NULL)
+                    {
+                        curr->n = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->n;                        
+                    };
+                }
+                else //112
+                {
+                    if (curr->p == NULL)
+                    {
+                        curr->p = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->p;                        
+                    };
+                };
+            };      
+        };               
+    }
+    else if (di < 109)
+    {
+        if (di > 102)
+        {
+            if (di > 105)
+            {
+                if (di == 108)
+                {
+                    if (curr->l == NULL)
+                    {
+                        curr->l = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->l;                        
+                    };
+                }
+                else if (di == 107)
+                {
+                    if (curr->k == NULL)
+                    {
+                        curr->k = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->k;                        
+                    };
+                }
+                else //106
+                {
+                    if (curr->j == NULL)
+                    {
+                        curr->j = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->j;                        
+                    };
+                };
+            }
+            else
+            {
+                if (di == 105)
+                {
+                    if (curr->i == NULL)
+                    {
+                        curr->i = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->i;                        
+                    };
+                }
+                else if (di == 104)
+                {
+                    if (curr->h == NULL)
+                    {
+                        curr->h = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->h;                        
+                    };
+                }
+                else // 103
+                {
+                    if (curr->g == NULL)
+                    {
+                        curr->g = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->g;                        
+                    };
+                };
+            }
+        }
+        else
+        {
+            if (di > 99)
+            {
+                if (di == 101)
+                {
+                    if (curr->e == NULL)
+                    {
+                        curr->e = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->e;                        
+                    };
+                }
+                else if (di == 100)
+                {
+                    if (curr->d == NULL)
+                    {
+                        curr->d = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->d;                        
+                    };
+                }
+                else //102
+                {
+                    if (curr->f == NULL)
+                    {
+                        curr->f = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->f;                        
+                    };
+                };
+            }
+            else if (di < 99)
+            {
+                if (di == 97)
+                {
+                    if (curr->a == NULL)
+                    {
+                        curr->a = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->a;                        
+                    };
+                }
+                else if (di == 98)
+                {
+                    if (curr->b == NULL)
+                    {
+                        curr->b = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->b;                        
+                    };
+                }
+                else // 39
+                {
+                    if (curr->AA == NULL)
+                    {
+                        curr->AA = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->AA;                        
+                    };
+                };
+            }
+            else // 99
+            {
+                    if (curr->c == NULL)
+                    {
+                        curr->c = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->c;                        
+                    };
+            };
+        };   
+    }
+    else //109
+    {                    
+                    if (curr->m == NULL)
+                    {
+                        curr->m = next;
+                        curr = next;
+                    }
+                    else
+                    {
+                        free(next);
+                        curr = curr->m;                        
+                    };
+    };
+}

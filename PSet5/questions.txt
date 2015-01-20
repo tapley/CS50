@@ -1,0 +1,102 @@
+//research source: http://superuser.com/questions/53600/jpeg-vs-png-vs-bmp-vs-gif
+
+0.  
+    BMP: 24-bit (~16 million colors)
+    GIF: 8-bit (256 colors)
+    JPEG: 24-bit (~16 million colors)
+    PNG: 48-bit (~280 trillion colors)
+
+1.  
+    Only GIF supports animation
+    
+2.  
+    Lossy compression reduces image quality with each save, but it therefore allows
+    smaller file sizes
+    
+    Lossless compression does not reduce image quality with each save, but it therefore requires
+    larger file sizes
+    
+3.  
+    BMP: Lossless
+    GIF: Lossless
+    JPEG: Lossy
+    PNG: Lossless
+    
+4.  
+    The file isn't actually touched. Two things happen. The first character of the file
+    is changed, and the FAT clusters are then moved to the computer's list of free files.
+    This essentially tells the computer that if it needs more memory in the future, 
+    it can overwrite the memory being used by the file. The issue is that if the computer
+    never ends up needing more memory, the file is never actually altered. 
+    
+5.  One could use a degaussing technique to randomize the magnetic information on the hard drive,
+    but this often leaves the drive unusuable, as it also deletes the files that make the hard drive
+    function in the first place.
+    
+    There are several programs that will "clean" a hard drive by overwriting all files, and these range
+    in price and effectiveness.
+    
+    A quick Amazon search shows that a hammer costs about $6. The article suggests this is the most
+    effective way to protect data, but there are some moral issues about failing to recycle technological
+    instruments. For truly important information, the $6 method may be the most effective.
+     
+6.  stdint.h is the heading for a library that defines certain types of integer widths and values. For example,
+    uint8_t is set to have 8-bits of memory (which may or may not all be used).
+    
+7.  A program or file type may require certain spacing of data. For example, the BMP file we looked at earlier in this
+    problem set requires the number of bytes to be in multiples of four. In this case, storing values in uint32_t
+    or int32_t would ensure that data is stored in multiples of 32 bits (four bytes).
+    
+8.  BYTE  = uint8_t  = 8 bits  = 1 byte
+    DWORD = uint32_t = 32 bits = 4 bytes
+    LONG  = int32_t  = 32 bits = 4 bytes
+    WORD  = uint16_t = 16 bits = 2 bytes
+
+9.  The magic numbers for a bitmap file are the following (note: all values are equal, only differentiated by number base):
+    ASCII: BM
+    Decimal: 19778
+    Hexadecimal: 0x4d42 
+    
+10. bfSize is the size of the entire file, which in this case is 246 bytes. The total can be found as thus:
+        BITMAPFILEHEADER = 14 bytes
+        BITMAPINFOHEADER = 40 bytes
+        File data = 192 bytes = (Height: 8 px) * (Width: 8 px) * (3 bytes / pixel)
+    
+    biSize is the size of the BITMAPINFOHEADER struct, which according to Microsoft's definition is 40 bytes. The total can be found as thus:   
+        biSize = 4 bytes
+        biWidth = 4 bytes 
+        biHeight = 4 bytes 
+        biPlanes = 2 bytes
+        biBitCount = 2 bytes 
+        biCompression = 4 bytes
+        biSizeImage = 4 bytes 
+        biXPelsPerMeter = 4 bytes
+        biYPelsPerMeter = 4 bytes
+        biClrUsed = 4 bytes 
+        biClrImportant = 4 bytes      
+
+11. A negative biHeight suggests that the file is a top-down DIB (device-independent Bitmap), with the point of origin in the top-left corner.
+    Conversely, if this value was positive, the file would be a bottom-up DIB, with the point of origin in the bottom-left corner.
+    In this case, we have a negative value. This means the computer will start producing the image at its top-left corner and work its way down (top-down)
+    as it reads more information.
+
+    
+12. biBitCount specifies color depth (bits/pixel). In this case, we have 24 bits/pixel, which corresponds to one byte each for blue, green, and red.
+
+13. fopen will return NULL in the result of an error in either the file or the command. If *fname (representing the file) cannot be found, fopen will
+    result in an error. If *fname can be found but cannot be written on (due to encrpytion, read-only qualities, etc), the "w" in copy.c:37 will return 
+    an error. However, fopen in copy.c:37 is creating a new file, so neither of these normal errors will likely happen. In this case, if fopen returns
+    NULL, it's likely because there was not enough disk space to create the new file.
+    
+14. fread's third input (in this case: 1) tells the function how many items it will be reading. In this case, fread will always be reading 1 file
+    (in this case: either BITMAPFILEHEADER or BITMAPINFOHEADER).
+    
+15. 3
+
+16. fseek sets the file position for a given stream. In copy.c, fseek is looking at it's position (SEEK_CUR) in the file (inptr) and then skipping forward
+    for a set length (padding).
+    
+17. SEEK_CUR is simply a predefinied value in the stdio library that tells fseek to apply the offset starting at the current file position. Alternatively
+    SEEK_SET and SEEK_END apply to offset to the beginning and end of the file, respectively.
+
+18. Milo Banana dun it.

@@ -1,0 +1,40 @@
+0.  It's the longest word in the dictionary, which lets us define LENGTH as 45. This  means we can tell our program that if it ever goes beyond
+    45 char for a word, it's making a mistake.
+1.  getrusage() returns the amount of resources used for int who -- which in the case of speller.c is RUSAGE_SELF, which  returns usage stats
+    for the calling process.
+2.  16 members.
+3.  getrusage() only accepts pointers.
+4.  This loop moves character by character, starting with fgetc(fp) and then moving one character down (using fgetc(fp)) for each iteration
+    until it hits the end of the file (c != EOF). It fills these characters into an array, that it builds, checks, and resets for each individual
+    word.
+    
+    Some variables explained:
+    
+    word[index]: word is the array that will be built and rebuilt for each iteration of the for loop. It starts off with a memory allocation of
+    LENGTH+1, which means it will be large enough to hold even the largest words in the dictionary. Any words longer than this will be caught by if
+    statments in the for loop and assumed to be mispelled, so they won't be inserted into word[], which would cause a segmentation fault (more on
+    this later). index is simply the space on the word array into which a char is placed, and it is increased by 1 for each iteration of the for loop. 
+    For example, this for loop would load the chars in cat with the following index values (c = 0; a = 1; t = 2). 
+    
+    ((c = fgetc(fp)) != EOF && isalpha(c)) and ((c = fgetc(fp)) != EOF && isalnum(c)): This simply reads through the end of words known to be mispelled. 
+    As long as it doesn't hit the end of the file and as long as the values that fgetc(fp) keeps returning are letters (isalpha(c)) or alphanumeric
+    (isalnum(c)), it will assume it's still on the same wrong word. It then sets the index to zero so that the main for loop can begin again.
+    
+    else if (index > 0): Assuming that the for loop is reading letters and apostrophes, it keeps adding to word[index]. If it hits a number, it throws
+    out the word, but if it hits a non-letter/apostrophe/number, it realizes it has hit the end of a word (this would be a big assumption for a general
+    dictionary, but we know this dictionary is limited to these types of characters). Once this condition is met, it appends a '/0' to the end of the
+    word[index] array, which will then be passed into check().
+    
+    words++: Once the for loop hits the end of the word, it updates the variable for how many words it has checked. This seems somewhat odd, since word++
+    should also appear in instances where words were either too long or had numbers.
+    
+    if (misspelled): If check() returned false, mispelled will have a true value. Once this value is set to true, the program will print the mispelled word.
+    
+5.  fscanf simply reads entire strings. Moving letter by letter may save us time, since we know that any word with a non-letter/apostrophe can be thrown out.
+    fscanf might work, but we'd have to go through rechecking each string letter by letter, which is an unnecessary step.
+    
+6.  TODO
+7.  TODO
+8.  TODO
+9.  TODO
+10. TODO
